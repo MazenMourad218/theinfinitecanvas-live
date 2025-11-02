@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infinite Canvas</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+    #grid {
+      display: grid;
+      width: 100vw;
+      height: 100vh;
+    }
+    .pixel {
+      border: 1px solid #222;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div id="grid"></div>
+  <script>
+    const PIXEL_SIZE = 10;
+    const SHADES = 5;
+    const grid = document.getElementById("grid");
+
+    const cols = Math.floor(window.innerWidth / PIXEL_SIZE);
+    const rows = Math.floor(window.innerHeight / PIXEL_SIZE);
+    const total = cols * rows;
+
+    grid.style.gridTemplateColumns = `repeat(${cols}, ${PIXEL_SIZE}px)`;
+    grid.style.gridTemplateRows = `repeat(${rows}, ${PIXEL_SIZE}px)`;
+
+    const pixels = [];
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement("div");
+      d.className = "pixel";
+      d.style.width = `${PIXEL_SIZE}px`;
+      d.style.height = `${PIXEL_SIZE}px`;
+      grid.appendChild(d);
+      pixels.push(d);
+    }
+
+    const socket = new WebSocket(`ws://${location.host}`);
+    socket.onmessage = (event) => {
+      const { counter } = JSON.parse(event.data);
+      for (let i = 0; i < counter.length && i < pixels.length; i++) {
+        const gray = Math.floor((counter[i] / (SHADES - 1)) * 255);
+        pixels[i].style.backgroundColor = `rgb(${gray},${gray},${gray})`;
+      }
+    };
+  </script>
+</body>
+</html>

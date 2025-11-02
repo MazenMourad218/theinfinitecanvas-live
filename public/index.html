@@ -49,7 +49,7 @@
       pixels.push(d);
     }
 
-    const socket = new WebSocket(`ws://${location.host}`);
+    const socket = new WebSocket(`wss://${location.host}`);
     socket.onmessage = (event) => {
       const { counter } = JSON.parse(event.data);
       for (let i = 0; i < counter.length && i < pixels.length; i++) {

@@ -17,6 +17,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      min-height: 100vh;
     }
 
     #logo {
@@ -28,53 +30,10 @@
     #message {
       text-align: center;
       max-width: 600px;
-      margin: 20px 40px;
-      font-size: 1.1rem;
+      margin: 15px 40px;
+      font-size: 0.95rem;
+      font-style: italic;
       color: #ccc;
     }
 
-    #grid {
-      display: grid;
-      grid-template-columns: repeat(100, 5px);
-      grid-template-rows: repeat(100, 5px);
-      margin: 20px 0 40px 0;
-    }
-
-    .pixel {
-      width: 5px;
-      height: 5px;
-      background-color: black;
-    }
-  </style>
-</head>
-<body>
-  <img src="Logo.png" alt="The Infinite Canvas Logo" id="logo" />
-  <div id="message">
-    From random pixels comes infinite possibility — given enough time, this canvas will recreate every image that has ever existed and every one still waiting to be imagined.
-  </div>
-  <div id="grid"></div>
-
-  <script>
-    const grid = document.getElementById("grid");
-    const total = 100 * 100;
-    const pixels = [];
-
-    for (let i = 0; i < total; i++) {
-      const pixel = document.createElement("div");
-      pixel.className = "pixel";
-      grid.appendChild(pixel);
-      pixels.push(pixel);
-    }
-
-    function updateCanvas() {
-      for (let i = 0; i < pixels.length; i++) {
-        const shade = Math.floor(Math.random() * 256);
-        pixels[i].style.backgroundColor = `rgb(${shade},${shade},${shade})`;
-      }
-    }
-
-    updateCanvas();
-    setInterval(updateCanvas, 3000);
-  </script>
-</body>
-</html>
+    #g

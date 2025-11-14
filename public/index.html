@@ -16,22 +16,24 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
     }
 
     #logo {
+      margin: 20px 0;
       width: 150px;
-      margin-bottom: 40px;
     }
 
-    #canvas-container {
-      width: 100px;
-      height: 100px;
+    #grid {
       display: grid;
+      grid-template-columns: repeat(100, 5px);
+      grid-template-rows: repeat(100, 5px);
+      width: 500px;
+      height: 500px;
     }
 
     .pixel {
+      width: 5px;
+      height: 5px;
       border: 1px solid #222;
       box-sizing: border-box;
     }
@@ -39,28 +41,20 @@
 </head>
 <body>
   <img src="Logo.png" id="logo" alt="The Infinite Canvas Logo" />
-  <div id="canvas-container"></div>
+  <div id="grid"></div>
 
   <script>
-    const GRID_WIDTH = 100;
-    const GRID_HEIGHT = 100;
-    const TILE_SIZE = 5;
     const SHADES = 5;
-
-    const cols = GRID_WIDTH / TILE_SIZE;
-    const rows = GRID_HEIGHT / TILE_SIZE;
+    const cols = 100;
+    const rows = 100;
     const total = cols * rows;
 
-    const grid = document.getElementById("canvas-container");
-    grid.style.gridTemplateColumns = `repeat(${cols}, ${TILE_SIZE}px)`;
-    grid.style.gridTemplateRows = `repeat(${rows}, ${TILE_SIZE}px)`;
+    const grid = document.getElementById("grid");
 
     const pixels = [];
     for (let i = 0; i < total; i++) {
       const d = document.createElement("div");
       d.className = "pixel";
-      d.style.width = `${TILE_SIZE}px`;
-      d.style.height = `${TILE_SIZE}px`;
       grid.appendChild(d);
       pixels.push(d);
     }

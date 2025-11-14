@@ -4,14 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Infinite Canvas</title>
-  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="icon" href="icon.png" type="image/png" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       background-color: black;
+      color: white;
       font-family: 'Inter', sans-serif;
       display: flex;
       flex-direction: column;
@@ -19,39 +20,45 @@
     }
 
     #logo {
-      margin: 20px 0;
-      width: 150px;
+      margin-top: 30px;
+      width: 160px;
+      height: auto;
+    }
+
+    #message {
+      text-align: center;
+      max-width: 600px;
+      margin: 20px 40px;
+      font-size: 1.1rem;
+      color: #ccc;
     }
 
     #grid {
       display: grid;
       grid-template-columns: repeat(100, 5px);
       grid-template-rows: repeat(100, 5px);
-      width: 500px;
-      height: 500px;
+      margin: 20px 0 40px 0;
     }
 
     .pixel {
       width: 5px;
       height: 5px;
-      border: 1px solid #222;
-      box-sizing: border-box;
+      background-color: black;
     }
   </style>
 </head>
 <body>
-  <img src="Logo.png" id="logo" alt="The Infinite Canvas Logo" />
+  <img src="Logo.png" alt="The Infinite Canvas Logo" id="logo" />
+  <div id="message">
+    From random pixels comes infinite possibility — given enough time, this canvas will recreate every image that has ever existed and every one still waiting to be imagined.
+  </div>
   <div id="grid"></div>
 
   <script>
-    const SHADES = 5;
-    const cols = 100;
-    const rows = 100;
-    const total = cols * rows;
     const grid = document.getElementById("grid");
-
-    // Create pixel elements once
+    const total = 100 * 100;
     const pixels = [];
+
     for (let i = 0; i < total; i++) {
       const pixel = document.createElement("div");
       pixel.className = "pixel";
@@ -59,16 +66,15 @@
       pixels.push(pixel);
     }
 
-    function updateGrid() {
-      for (let i = 0; i < total; i++) {
-        const shade = Math.floor(Math.random() * SHADES);
-        const gray = Math.floor((shade / (SHADES - 1)) * 255);
-        pixels[i].style.backgroundColor = `rgb(${gray},${gray},${gray})`;
+    function updateCanvas() {
+      for (let i = 0; i < pixels.length; i++) {
+        const shade = Math.floor(Math.random() * 256);
+        pixels[i].style.backgroundColor = `rgb(${shade},${shade},${shade})`;
       }
     }
 
-    updateGrid(); // initial fill
-    setInterval(updateGrid, 5000); // refresh every 5 seconds
+    updateCanvas();
+    setInterval(updateCanvas, 3000);
   </script>
 </body>
 </html>

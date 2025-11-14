@@ -48,25 +48,27 @@
     const cols = 100;
     const rows = 100;
     const total = cols * rows;
-
     const grid = document.getElementById("grid");
 
+    // Create pixel elements once
     const pixels = [];
     for (let i = 0; i < total; i++) {
-      const d = document.createElement("div");
-      d.className = "pixel";
-      grid.appendChild(d);
-      pixels.push(d);
+      const pixel = document.createElement("div");
+      pixel.className = "pixel";
+      grid.appendChild(pixel);
+      pixels.push(pixel);
     }
 
-    const socket = new WebSocket(`wss://${location.host}`);
-    socket.onmessage = (event) => {
-      const { counter } = JSON.parse(event.data);
-      for (let i = 0; i < counter.length && i < pixels.length; i++) {
-        const gray = Math.floor((counter[i] / (SHADES - 1)) * 255);
+    function updateGrid() {
+      for (let i = 0; i < total; i++) {
+        const shade = Math.floor(Math.random() * SHADES);
+        const gray = Math.floor((shade / (SHADES - 1)) * 255);
         pixels[i].style.backgroundColor = `rgb(${gray},${gray},${gray})`;
       }
-    };
+    }
+
+    updateGrid(); // initial fill
+    setInterval(updateGrid, 5000); // refresh every 5 seconds
   </script>
 </body>
 </html>

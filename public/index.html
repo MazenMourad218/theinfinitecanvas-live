@@ -11,23 +11,24 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
+      background-color: black;
       font-family: 'Inter', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
 
     #logo {
-      margin-top: 20px;
       width: 150px;
+      margin-bottom: 40px;
     }
 
-    #grid {
-      display: grid;
+    #canvas-container {
       width: 100px;
       height: 100px;
-      margin-top: 20px;
+      display: grid;
     }
 
     .pixel {
@@ -38,18 +39,19 @@
 </head>
 <body>
   <img src="Logo.png" id="logo" alt="The Infinite Canvas Logo" />
-  <div id="grid"></div>
+  <div id="canvas-container"></div>
+
   <script>
-    const GRID_WIDTH = 100;  // in pixels
-    const GRID_HEIGHT = 100; // in pixels
-    const TILE_SIZE = 5;     // size of each grid cell in px
+    const GRID_WIDTH = 100;
+    const GRID_HEIGHT = 100;
+    const TILE_SIZE = 5;
     const SHADES = 5;
 
     const cols = GRID_WIDTH / TILE_SIZE;
     const rows = GRID_HEIGHT / TILE_SIZE;
     const total = cols * rows;
 
-    const grid = document.getElementById("grid");
+    const grid = document.getElementById("canvas-container");
     grid.style.gridTemplateColumns = `repeat(${cols}, ${TILE_SIZE}px)`;
     grid.style.gridTemplateRows = `repeat(${rows}, ${TILE_SIZE}px)`;
 
@@ -59,46 +61,6 @@
       d.className = "pixel";
       d.style.width = `${TILE_SIZE}px`;
       d.style.height = `${TILE_SIZE}px`;
-      grid.appendChild(d);
-      pixels.push(d);
-    }
-
-    const socket = new WebSocket(`wss://${location.host}`);
-    socket.onmessage = (event) => {
-      const { counter } = JSON.parse(event.data);
-      for (let i = 0; i < counter.length && i < pixels.length; i++) {
-        const gray = Math.floor((counter[i] / (SHADES - 1)) * 255);
-        pixels[i].style.backgroundColor = `rgb(${gray},${gray},${gray})`;
-      }
-    };
-  </script>
-</body>
-</html>
-      box-sizing: border-box;
-    }
-  </style>
-</head>
-<body>
-  <img src="Logo.png" id="logo" alt="The Infinite Canvas Logo" />
-  <div id="grid"></div>
-  <script>
-    const PIXEL_SIZE = 5;
-    const SHADES = 5;
-    const grid = document.getElementById("grid");
-
-    const cols = 100;
-    const rows = 100;
-    const total = cols * rows;
-
-    grid.style.gridTemplateColumns = `repeat(${cols}, ${PIXEL_SIZE}px)`;
-    grid.style.gridTemplateRows = `repeat(${rows}, ${PIXEL_SIZE}px)`;
-
-    const pixels = [];
-    for (let i = 0; i < total; i++) {
-      const d = document.createElement("div");
-      d.className = "pixel";
-      d.style.width = `${PIXEL_SIZE}px`;
-      d.style.height = `${PIXEL_SIZE}px`;
       grid.appendChild(d);
       pixels.push(d);
     }
